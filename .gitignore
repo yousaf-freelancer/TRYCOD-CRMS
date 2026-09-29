@@ -4,6 +4,7 @@ dist/
 .env
 .env.*
 !.env.example
-backend/src/generated/
+backend/src/data/prisma/generated/
 *.log
 .DS_Store
+*.tsbuildinfo

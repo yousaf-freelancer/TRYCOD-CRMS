@@ -1,0 +1,32 @@
+root/
+├── backend/
+│   ├── src/
+│   │   ├── core/           # Shared kernel (config, errors, utils)
+│   │   ├── domain/         # Entities, Repository Interfaces, Use Cases
+│   │   ├── data/           # Repository Implementations, Prisma Client
+│   │   └── presentation/   # Controllers, Routes, Middleware
+│   ├── prisma/
+│   │   ├── schema/
+│   │   │   ├── models/
+│   │   │   │   ├── user.model.prisma
+│   │   │   │   ├── order.model.prisma
+│   │   │   │   └── ...
+│   │   │   ├── enums/
+│   │   │   │   ├── user-role.enum.prisma
+│   │   │   │   └── ...
+│   │   │   └── base.prisma
+│   │   ├── schema.prisma   # Generated (DO NOT EDIT)
+│   │   ├── build-schema.js
+│   │   └── migrations/
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .env.example
+├── frontend/
+│   └── src/
+│       └── app/
+│           ├── core/           # Guards, Interceptors, Services
+│           ├── domain/         # Entities, Use Cases, Interfaces
+│           ├── data/           # API Services, Repository Implementations
+│           ├── presentation/   # Components, Pages
+│           └── shared/         # Shared UI Components
+├── .cursorrules
