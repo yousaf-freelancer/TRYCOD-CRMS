@@ -46,10 +46,6 @@ export class AuthService {
     });
   }
 
-  requestPasswordReset(email: string): Observable<{ email: string }> {
-    return mockCompute(() => ({ email: email.trim() }), 700);
-  }
-
   hasRole(...roles: Role[]): boolean {
     const role = this.role();
     return role !== null && roles.includes(role);

@@ -17,13 +17,6 @@ export const routes: Routes = [
     loadComponent: () => import('./presentation/features/auth/login.page').then((m) => m.LoginPage),
   },
   {
-    path: 'forgot-password',
-    title: 'Reset password',
-    canActivate: [guestGuard],
-    loadComponent: () =>
-      import('./presentation/features/auth/forgot-password.page').then((m) => m.ForgotPasswordPage),
-  },
-  {
     path: 'portal',
     canActivate: [studentGuard],
     loadComponent: () => import('./presentation/layout/portal-shell').then((m) => m.PortalShell),

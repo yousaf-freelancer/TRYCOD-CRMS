@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
@@ -20,7 +20,6 @@ const ROLE_ICONS: Record<Role, string> = {
   selector: 'app-login-page',
   imports: [
     ReactiveFormsModule,
-    RouterLink,
     LucideDynamicIcon,
     InputTextModule,
     CheckboxModule,
@@ -61,14 +60,7 @@ const ROLE_ICONS: Record<Role, string> = {
         </div>
 
         <div class="field">
-          <div class="flex items-center justify-between">
-            <label for="password" class="field-label">Password</label>
-            <a
-              routerLink="/forgot-password"
-              class="text-[13px] font-medium text-muted hover:text-ink"
-              >Forgot password?</a
-            >
-          </div>
+          <label for="password" class="field-label">Password</label>
           <div class="relative">
             <input
               pInputText
