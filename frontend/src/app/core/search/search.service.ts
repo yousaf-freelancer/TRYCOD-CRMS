@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Role } from '../../models';
+import { Role } from '../../domain/models';
 import { AuthService } from '../auth/auth.service';
-import { MockDb } from '../mock/mock-db';
-import { mockCompute } from '../mock/mock-response';
+import { MockDb } from '../../data/mock/mock-db';
+import { mockCompute } from '../../data/mock/mock-response';
 import { navForRole } from '../navigation/nav.config';
 
 export interface SearchResult {

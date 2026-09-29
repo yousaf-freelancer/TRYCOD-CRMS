@@ -1,4 +1,4 @@
-import { ISODate, MonthKey } from '../../models';
+import { ISODate, MonthKey } from '../../domain/models';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_LONG = [

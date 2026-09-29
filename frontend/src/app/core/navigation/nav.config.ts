@@ -1,4 +1,4 @@
-import { Role, STAFF_ROLES } from '../../models';
+import { Role, STAFF_ROLES } from '../../domain/models';
 
 export interface NavItem {
   label: string;

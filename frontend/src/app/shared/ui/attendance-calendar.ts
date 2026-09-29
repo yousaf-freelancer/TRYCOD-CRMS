@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { LucideDynamicIcon } from '@lucide/angular';
-import { DayAttendance, MonthKey } from '../../models';
+import { DayAttendance, MonthKey } from '../../domain/models';
 import { formatMonth, isSunday, monthDates, parseIsoDate, todayIso } from '../utils/date.util';
 
 interface Cell {

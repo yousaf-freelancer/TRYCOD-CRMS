@@ -1,8 +1,8 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppUser, DemoAccount, LoginCredentials, Role } from '../../models';
-import { DEMO_ACCOUNTS, DEMO_USERS } from '../../mock-data/users.mock';
-import { mockCompute, mockError } from '../mock/mock-response';
+import { AppUser, DemoAccount, LoginCredentials, Role } from '../../domain/models';
+import { DEMO_ACCOUNTS, DEMO_USERS } from '../../data/mock-data/users.mock';
+import { mockCompute, mockError } from '../../data/mock/mock-response';
 
 const STORAGE_KEY = 'trycod.session';
 

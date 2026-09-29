@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { LucideDynamicIcon } from '@lucide/angular';
 import { AuthService } from '../../core/auth/auth.service';
-import { Role } from '../../models';
+import { Role } from '../../domain/models';
 
 export interface TabLink {
   label: string;

@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, RedirectFunction, Router } from '@angular/router';
-import { Role } from '../../models';
+import { Role } from '../../domain/models';
 import { AuthService } from './auth.service';
 
 /** Blocks unauthenticated users and sends them to login. */
