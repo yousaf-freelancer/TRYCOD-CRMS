@@ -113,14 +113,14 @@ import { EmployeeFormDialog } from './employee-form-dialog';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="id" class="w-28">ID <p-sorticon field="id" /></th>
-              <th pSortableColumn="name">Employee <p-sorticon field="name" /></th>
-              <th pSortableColumn="role">Role <p-sorticon field="role" /></th>
-              <th pSortableColumn="department">Department <p-sorticon field="department" /></th>
-              <th pSortableColumn="designation">Designation <p-sorticon field="designation" /></th>
+              <th pSortableColumn="id" class="w-28">ID <p-sortIcon field="id" /></th>
+              <th pSortableColumn="name">Employee <p-sortIcon field="name" /></th>
+              <th pSortableColumn="role">Role <p-sortIcon field="role" /></th>
+              <th pSortableColumn="department">Department <p-sortIcon field="department" /></th>
+              <th pSortableColumn="designation">Designation <p-sortIcon field="designation" /></th>
               <th>Contact</th>
-              <th pSortableColumn="joiningDate">Joined <p-sorticon field="joiningDate" /></th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="joiningDate">Joined <p-sortIcon field="joiningDate" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>
@@ -243,9 +243,12 @@ export class EmployeesPage {
       danger: deactivate,
     });
     if (!ok) return;
-    this.service.setStatus(e.id, deactivate ? 'Inactive' : 'Active').subscribe(() => {
-      this.toast.success(deactivate ? 'Employee deactivated' : 'Employee activated', e.name);
-      this.employees.reload();
+    this.service.setStatus(e.id, deactivate ? 'Inactive' : 'Active').subscribe({
+      next: () => {
+        this.toast.success(deactivate ? 'Employee deactivated' : 'Employee activated', e.name);
+        this.employees.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 

@@ -1,25 +1,25 @@
-import { Role } from './common.model';
-
-export interface AppUser {
-  id: string;
+/** Signed-in user as returned by `POST /auth/login` and `GET /auth/me`. */
+export interface AuthUser {
+  userId: string;
   name: string;
   email: string;
-  role: Role;
-  title: string;
+  /** Role codes, e.g. `ADMIN`, `MENTOR`, `STUDENT`. */
+  roles: string[];
+  /** Permission codes, e.g. `students.view`, `fees.collect`. */
+  permissions: string[];
   /** Set for staff users. */
-  employeeId?: string;
-  /** Set for the student portal user. */
-  studentId?: string;
+  employeeId: string | null;
+  /** Set for student users. */
+  studentId: string | null;
 }
 
 export interface LoginCredentials {
-  email: string;
+  /** Email or phone number. */
+  identifier: string;
   password: string;
-  remember: boolean;
 }
 
-export interface DemoAccount {
-  role: Role;
-  email: string;
-  password: string;
+export interface LoginResponse {
+  token: string;
+  user: AuthUser;
 }

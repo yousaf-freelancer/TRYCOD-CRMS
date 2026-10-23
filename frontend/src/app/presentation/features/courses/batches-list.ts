@@ -81,15 +81,15 @@ import { CoursesService } from '../../../data/services/courses.service';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="code">Batch <p-sorticon field="code" /></th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="mentorName">Mentor <p-sorticon field="mentorName" /></th>
+              <th pSortableColumn="code">Batch <p-sortIcon field="code" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="mentorName">Mentor <p-sortIcon field="mentorName" /></th>
               <th>Timing</th>
-              <th pSortableColumn="startDate">Start date <p-sorticon field="startDate" /></th>
+              <th pSortableColumn="startDate">Start date <p-sortIcon field="startDate" /></th>
               <th pSortableColumn="enrolled" class="w-44">
-                Enrolled <p-sorticon field="enrolled" />
+                Enrolled <p-sortIcon field="enrolled" />
               </th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>

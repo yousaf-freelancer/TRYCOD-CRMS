@@ -119,16 +119,16 @@ import { LeaveTypeDialog } from './leave-type-dialog';
                 <ng-template #header>
                   <tr>
                     <th pSortableColumn="employeeName">
-                      Employee <p-sorticon field="employeeName" />
+                      Employee <p-sortIcon field="employeeName" />
                     </th>
                     <th pSortableColumn="leaveTypeName">
-                      Type <p-sorticon field="leaveTypeName" />
+                      Type <p-sortIcon field="leaveTypeName" />
                     </th>
-                    <th pSortableColumn="from">Dates <p-sorticon field="from" /></th>
-                    <th pSortableColumn="days">Days <p-sorticon field="days" /></th>
+                    <th pSortableColumn="from">Dates <p-sortIcon field="from" /></th>
+                    <th pSortableColumn="days">Days <p-sortIcon field="days" /></th>
                     <th>Reason</th>
-                    <th pSortableColumn="appliedOn">Applied <p-sorticon field="appliedOn" /></th>
-                    <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+                    <th pSortableColumn="appliedOn">Applied <p-sortIcon field="appliedOn" /></th>
+                    <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
                     <th class="w-44"><span class="sr-only">Actions</span></th>
                   </tr>
                 </ng-template>

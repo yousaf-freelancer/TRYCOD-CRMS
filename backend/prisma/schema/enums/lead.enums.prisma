@@ -1,0 +1,34 @@
+enum LeadStatus {
+  NEW
+  CONTACTED
+  INTERESTED
+  COUNSELLED
+  CONVERTED
+  LOST
+}
+
+enum LeadSource {
+  WALK_IN
+  PHONE_CALL
+  WEBSITE
+  INSTAGRAM
+  FACEBOOK
+  GOOGLE
+  REFERRAL
+  OTHER
+}
+
+enum FollowUpType {
+  CALL
+  WHATSAPP
+  VISIT
+  MEETING
+  EMAIL
+}
+
+enum FollowUpStatus {
+  PENDING
+  DONE
+  MISSED
+  CANCELLED
+}

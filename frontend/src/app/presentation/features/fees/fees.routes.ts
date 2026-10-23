@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { permissionGuard } from '../../../core/auth/auth.guards';
 
 export const FEES_ROUTES: Routes = [
   {
@@ -19,6 +20,7 @@ export const FEES_ROUTES: Routes = [
       {
         path: 'collect',
         title: 'Collect fee',
+        canActivate: [permissionGuard('fees.collect')],
         loadComponent: () => import('./collect/collect-fee').then((m) => m.CollectFee),
       },
       {

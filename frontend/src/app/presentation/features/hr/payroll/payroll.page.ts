@@ -140,19 +140,19 @@ import { PayrollService } from '../../../../data/services/payroll.service';
           >
             <ng-template #header>
               <tr>
-                <th pSortableColumn="employeeName">Employee <p-sorticon field="employeeName" /></th>
-                <th pSortableColumn="department">Department <p-sorticon field="department" /></th>
+                <th pSortableColumn="employeeName">Employee <p-sortIcon field="employeeName" /></th>
+                <th pSortableColumn="department">Department <p-sortIcon field="department" /></th>
                 <th class="text-right">Days</th>
                 <th pSortableColumn="lopDays" class="text-right">
-                  LOP <p-sorticon field="lopDays" />
+                  LOP <p-sortIcon field="lopDays" />
                 </th>
                 <th pSortableColumn="gross" class="text-right">
-                  Gross <p-sorticon field="gross" />
+                  Gross <p-sortIcon field="gross" />
                 </th>
                 <th class="text-right">Deductions</th>
                 <th class="text-right">LOP amount</th>
                 <th pSortableColumn="netPay" class="text-right">
-                  Net pay <p-sorticon field="netPay" />
+                  Net pay <p-sortIcon field="netPay" />
                 </th>
                 <th class="w-24"><span class="sr-only">Payslip</span></th>
               </tr>
@@ -263,14 +263,17 @@ export class PayrollPage {
     });
     if (!ok) return;
     this.processing.set(true);
-    this.service.processRun(month).subscribe(() => {
-      this.processing.set(false);
-      this.toast.success(
-        'Payroll processed',
-        `${formatMonth(month, true)} payslips are now available.`,
-      );
-      this.run.reload();
-      this.runs.reload();
+    this.service.processRun(month).subscribe({
+      next: () => {
+        this.processing.set(false);
+        this.toast.success(
+          'Payroll processed',
+          `${formatMonth(month, true)} payslips are now available.`,
+        );
+        this.run.reload();
+        this.runs.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 

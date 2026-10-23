@@ -73,11 +73,11 @@ import { ReportSummary, SummaryItem } from '../ui/report-summary';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="name">Student <p-sorticon field="name" /></th>
-              <th pSortableColumn="batchCode">Batch <p-sorticon field="batchCode" /></th>
-              <th pSortableColumn="mentorName">Mentor <p-sorticon field="mentorName" /></th>
+              <th pSortableColumn="name">Student <p-sortIcon field="name" /></th>
+              <th pSortableColumn="batchCode">Batch <p-sortIcon field="batchCode" /></th>
+              <th pSortableColumn="mentorName">Mentor <p-sortIcon field="mentorName" /></th>
               <th pSortableColumn="attendancePct" class="w-56">
-                Attendance <p-sorticon field="attendancePct" />
+                Attendance <p-sortIcon field="attendancePct" />
               </th>
             </tr>
           </ng-template>

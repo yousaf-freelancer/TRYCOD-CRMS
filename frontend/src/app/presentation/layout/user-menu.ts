@@ -21,7 +21,7 @@ import { AuthService } from '../../core/auth/auth.service';
         <app-avatar [name]="u.name" size="sm" />
         <span class="hidden text-left md:block">
           <span class="block text-[13px] leading-4 font-medium text-ink">{{ u.name }}</span>
-          <span class="block text-[11.5px] leading-4 text-muted">{{ u.role }}</span>
+          <span class="block text-[11.5px] leading-4 text-muted">{{ roleLabel() }}</span>
         </span>
         <svg lucideIcon="chevron-down" size="14" class="hidden text-muted md:block" />
       </button>
@@ -49,6 +49,7 @@ export class UserMenu {
   readonly portal = input(false);
 
   protected readonly user = this.auth.user;
+  protected readonly roleLabel = this.auth.roleLabel;
   protected readonly items = computed<MenuItem[]>(() => {
     const profileRoute = this.portal() ? '/portal/profile' : '/settings/account';
     const items: MenuItem[] = [{ label: 'My profile', icon: 'user', routerLink: profileRoute }];
@@ -62,7 +63,6 @@ export class UserMenu {
   });
 
   private logout(): void {
-    this.auth.logout();
-    void this.router.navigateByUrl('/login');
+    this.auth.logout().subscribe(() => void this.router.navigateByUrl('/login'));
   }
 }

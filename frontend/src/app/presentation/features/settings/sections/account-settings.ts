@@ -23,14 +23,13 @@ import { SettingsSection } from '../ui/settings-section';
             <app-avatar [name]="u.name" size="xl" />
             <div class="min-w-0 flex-1">
               <p class="text-lg font-semibold">{{ u.name }}</p>
-              <p class="text-[13px] text-muted">{{ u.title }} · {{ u.role }}</p>
+              <p class="text-[13px] text-muted">{{ roleLabel() }}</p>
               <p class="mt-1 text-[13px]">{{ u.email }}</p>
             </div>
             <span class="kbd">{{ u.employeeId ?? u.studentId }}</span>
           </div>
           <p class="mt-5 rounded-lg bg-surface-muted px-4 py-3 text-xs text-muted">
-            To change your name, role or employee details, contact HR. Profile photos will be
-            supported with the backend.
+            To change your name, role or employee details, contact HR.
           </p>
         </app-settings-section>
 
@@ -85,9 +84,7 @@ import { SettingsSection } from '../ui/settings-section';
 
         <app-settings-section title="Session" [showSave]="false">
           <div class="flex flex-wrap items-center justify-between gap-3">
-            <p class="text-[13px] text-muted">
-              Signed in on this browser. Demo sessions are stored locally only.
-            </p>
+            <p class="text-[13px] text-muted">Signed in on this browser.</p>
             <button type="button" class="btn btn-danger" (click)="logout()">
               <svg lucideIcon="log-out" size="15" /> Sign out
             </button>
@@ -101,6 +98,7 @@ export class AccountSettings {
   private readonly auth = inject(AuthService);
   private readonly toast = inject(ToastService);
   protected readonly user = this.auth.user;
+  protected readonly roleLabel = this.auth.roleLabel;
   protected readonly saving = signal(false);
   private readonly touched = signal(false);
 
@@ -122,16 +120,21 @@ export class AccountSettings {
     const v = this.form.getRawValue();
     if (this.form.invalid || v.next !== v.confirm) return;
     this.saving.set(true);
-    setTimeout(() => {
-      this.saving.set(false);
-      this.form.reset();
-      this.touched.set(false);
-      this.toast.success('Password updated', 'Demo only — real password changes need the backend.');
-    }, 600);
+    this.auth.changePassword(v.current, v.next).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.form.reset();
+        this.touched.set(false);
+        this.toast.success('Password updated');
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not update password', e.message);
+      },
+    });
   }
 
   protected logout(): void {
-    this.auth.logout();
-    location.assign('/login');
+    this.auth.logout().subscribe(() => location.assign('/login'));
   }
 }

@@ -126,17 +126,17 @@ import { FeesService } from '../../../../data/services/fees.service';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="receiptNo">Receipt <p-sorticon field="receiptNo" /></th>
-              <th pSortableColumn="date">Date <p-sorticon field="date" /></th>
-              <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="mode">Mode <p-sorticon field="mode" /></th>
+              <th pSortableColumn="receiptNo">Receipt <p-sortIcon field="receiptNo" /></th>
+              <th pSortableColumn="date">Date <p-sortIcon field="date" /></th>
+              <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="mode">Mode <p-sortIcon field="mode" /></th>
               <th>Reference</th>
               <th pSortableColumn="collectedByName">
-                Collected by <p-sorticon field="collectedByName" />
+                Collected by <p-sortIcon field="collectedByName" />
               </th>
               <th pSortableColumn="amount" class="text-right">
-                Amount <p-sorticon field="amount" />
+                Amount <p-sortIcon field="amount" />
               </th>
               <th class="w-14"><span class="sr-only">Receipt</span></th>
             </tr>

@@ -124,11 +124,17 @@ export class LeaveTypeDialog {
     if (this.form.invalid) return;
     const v = { ...this.form.getRawValue(), code: this.form.getRawValue().code.toUpperCase() };
     this.saving.set(true);
-    this.service.saveLeaveType(v, this.type()?.id).subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success('Leave type saved', v.name);
-      this.saved.emit();
+    this.service.saveLeaveType(v, this.type()?.id).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success('Leave type saved', v.name);
+        this.saved.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

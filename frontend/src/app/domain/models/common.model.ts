@@ -1,6 +1,5 @@
 export type Role = 'Admin' | 'Advisor' | 'Mentor' | 'Sales' | 'Student';
 
-export const STAFF_ROLES: readonly Role[] = ['Admin', 'Advisor', 'Mentor', 'Sales'];
 export const ALL_ROLES: readonly Role[] = ['Admin', 'Advisor', 'Mentor', 'Sales', 'Student'];
 
 /** Calendar date in `YYYY-MM-DD` form. */

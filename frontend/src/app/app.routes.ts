@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
 import {
+  authGuard,
   guestGuard,
   homeRedirect,
-  roleGuard,
+  permissionGuard,
   staffGuard,
-  studentGuard,
 } from './core/auth/auth.guards';
-import { ROUTE_ROLES } from './core/navigation/nav.config';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: homeRedirect },
@@ -18,65 +17,66 @@ export const routes: Routes = [
   },
   {
     path: 'portal',
-    canActivate: [studentGuard],
+    canActivate: [authGuard, permissionGuard('portal.access')],
     loadComponent: () => import('./presentation/layout/portal-shell').then((m) => m.PortalShell),
     loadChildren: () => import('./presentation/features/portal/portal.routes').then((m) => m.PORTAL_ROUTES),
   },
   {
     path: '',
-    canActivate: [staffGuard],
+    canActivate: [authGuard, staffGuard],
     loadComponent: () => import('./presentation/layout/shell').then((m) => m.Shell),
     children: [
       {
         path: 'dashboard',
         title: 'Dashboard',
+        canActivate: [permissionGuard('dashboard.view')],
         loadComponent: () =>
           import('./presentation/features/dashboard/dashboard.page').then((m) => m.DashboardPage),
       },
       {
         path: 'admissions',
-        data: { roles: ROUTE_ROLES.admissions, section: 'Admissions' },
-        canActivate: [roleGuard],
+        data: { section: 'Admissions' },
+        canActivate: [permissionGuard('admissions.view')],
         loadChildren: () =>
           import('./presentation/features/admissions/admissions.routes').then((m) => m.ADMISSIONS_ROUTES),
       },
       {
         path: 'students',
-        data: { roles: ROUTE_ROLES.students, section: 'Students' },
-        canActivate: [roleGuard],
+        data: { section: 'Students' },
+        canActivate: [permissionGuard('students.view')],
         loadChildren: () =>
           import('./presentation/features/students/students.routes').then((m) => m.STUDENTS_ROUTES),
       },
       {
         path: 'courses',
-        data: { roles: ROUTE_ROLES.courses, section: 'Courses & Batches' },
-        canActivate: [roleGuard],
+        data: { section: 'Courses & Batches' },
+        canActivate: [permissionGuard('courses.view')],
         loadChildren: () =>
           import('./presentation/features/courses/courses.routes').then((m) => m.COURSES_ROUTES),
       },
       {
         path: 'fees',
-        data: { roles: ROUTE_ROLES.fees, section: 'Fees' },
-        canActivate: [roleGuard],
+        data: { section: 'Fees' },
+        canActivate: [permissionGuard('fees.view')],
         loadChildren: () => import('./presentation/features/fees/fees.routes').then((m) => m.FEES_ROUTES),
       },
       {
         path: 'attendance',
-        data: { roles: ROUTE_ROLES.attendance, section: 'Attendance' },
-        canActivate: [roleGuard],
+        data: { section: 'Attendance' },
+        canActivate: [permissionGuard('attendance.student.mark')],
         loadChildren: () =>
           import('./presentation/features/attendance/attendance.routes').then((m) => m.ATTENDANCE_ROUTES),
       },
       {
         path: 'hr',
-        data: { roles: ROUTE_ROLES.admin, section: 'HR' },
-        canActivate: [roleGuard],
+        data: { section: 'HR' },
+        canActivate: [permissionGuard('hr.view')],
         loadChildren: () => import('./presentation/features/hr/hr.routes').then((m) => m.HR_ROUTES),
       },
       {
         path: 'me',
-        data: { roles: ROUTE_ROLES.staff, section: 'My Workspace' },
-        canActivate: [roleGuard],
+        data: { section: 'My Workspace' },
+        canActivate: [permissionGuard('self.access')],
         loadChildren: () =>
           import('./presentation/features/hr/self-service/self-service.routes').then(
             (m) => m.SELF_SERVICE_ROUTES,
@@ -84,8 +84,8 @@ export const routes: Routes = [
       },
       {
         path: 'mentor-reports',
-        data: { roles: ROUTE_ROLES.mentorReports, section: 'Mentor Reports' },
-        canActivate: [roleGuard],
+        data: { section: 'Mentor Reports' },
+        canActivate: [permissionGuard('mentor_reports.view')],
         loadChildren: () =>
           import('./presentation/features/mentor-reports/mentor-reports.routes').then(
             (m) => m.MENTOR_REPORTS_ROUTES,
@@ -94,14 +94,13 @@ export const routes: Routes = [
       {
         path: 'calls',
         title: 'Sales Calls',
-        data: { roles: ROUTE_ROLES.calls },
-        canActivate: [roleGuard],
+        canActivate: [permissionGuard('calls.view')],
         loadComponent: () => import('./presentation/features/calls/calls.page').then((m) => m.CallsPage),
       },
       {
         path: 'reports',
-        data: { roles: ROUTE_ROLES.admin, section: 'Reports' },
-        canActivate: [roleGuard],
+        data: { section: 'Reports' },
+        canActivate: [permissionGuard('reports.view')],
         loadChildren: () =>
           import('./presentation/features/reports/reports.routes').then((m) => m.REPORTS_ROUTES),
       },

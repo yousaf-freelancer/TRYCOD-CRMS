@@ -204,6 +204,8 @@ export class AdvisorDashboardView {
   protected readonly firstName = computed(() => this.auth.user()?.name.split(' ')[0] ?? '');
   protected readonly targetPct = computed(() => {
     const d = this.data.hasValue() ? this.data.value() : undefined;
-    return d ? Math.min(Math.round((d.admissionsMonth / d.admissionsTarget) * 100), 100) : 0;
+    return d?.admissionsTarget
+      ? Math.min(Math.round((d.admissionsMonth / d.admissionsTarget) * 100), 100)
+      : 0;
   });
 }

@@ -316,13 +316,19 @@ export class MarkAttendance {
         markedBy: this.auth.user()?.employeeId ?? '',
         entries: this.rows().map((r) => ({ studentId: r.studentId, status: r.status ?? 'Absent' })),
       })
-      .subscribe((n) => {
-        this.saving.set(false);
-        this.toast.success(
-          'Attendance saved',
-          `${n} students · ${this.count('Absent') + this.unmarked()} absent`,
-        );
-        this.sheet.reload();
+      .subscribe({
+        next: (n) => {
+          this.saving.set(false);
+          this.toast.success(
+            'Attendance saved',
+            `${n} students · ${this.count('Absent') + this.unmarked()} absent`,
+          );
+          this.sheet.reload();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

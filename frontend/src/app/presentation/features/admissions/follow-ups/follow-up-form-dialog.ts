@@ -146,11 +146,17 @@ export class FollowUpFormDialog {
         channel: v.channel,
         purpose: v.purpose,
       })
-      .subscribe(() => {
-        this.saving.set(false);
-        this.visible.set(false);
-        this.toast.success('Follow-up scheduled', `${t.name} · ${toIsoDate(v.date)} ${v.time}`);
-        this.saved.emit();
+      .subscribe({
+        next: () => {
+          this.saving.set(false);
+          this.visible.set(false);
+          this.toast.success('Follow-up scheduled', `${t.name} · ${toIsoDate(v.date)} ${v.time}`);
+          this.saved.emit();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

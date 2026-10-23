@@ -8,6 +8,9 @@ export interface TabLink {
   label: string;
   route: string;
   icon?: string;
+  /** Permission code required to see the tab. */
+  permission?: string;
+  /** Narrows the tab to role-specific views. */
   roles?: readonly Role[];
   exact?: boolean;
   badge?: number | null;
@@ -52,7 +55,10 @@ export class TabNav {
   readonly label = input('Section navigation');
 
   protected readonly visibleTabs = computed(() => {
-    const role = this.auth.role();
-    return this.tabs().filter((t) => !t.roles || (role !== null && t.roles.includes(role)));
+    return this.tabs().filter(
+      (t) =>
+        (!t.permission || this.auth.hasPermission(t.permission)) &&
+        (!t.roles || this.auth.hasRole(...t.roles)),
+    );
   });
 }

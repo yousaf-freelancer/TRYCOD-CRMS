@@ -218,11 +218,17 @@ export class BatchFormDialog {
     };
     const b = this.batch();
     this.saving.set(true);
-    (b ? this.service.updateBatch(b.id, input) : this.service.createBatch(input)).subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success(b ? 'Batch updated' : 'Batch created', input.code);
-      this.saved.emit();
+    (b ? this.service.updateBatch(b.id, input) : this.service.createBatch(input)).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success(b ? 'Batch updated' : 'Batch created', input.code);
+        this.saved.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

@@ -99,11 +99,17 @@ export class StaffCorrectionDialog {
         checkIn: noTimes ? null : v.checkIn || null,
         checkOut: noTimes ? null : v.checkOut || null,
       })
-      .subscribe(() => {
-        this.saving.set(false);
-        this.visible.set(false);
-        this.toast.success('Attendance updated', r.employeeName);
-        this.saved.emit();
+      .subscribe({
+        next: () => {
+          this.saving.set(false);
+          this.visible.set(false);
+          this.toast.success('Attendance updated', r.employeeName);
+          this.saved.emit();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

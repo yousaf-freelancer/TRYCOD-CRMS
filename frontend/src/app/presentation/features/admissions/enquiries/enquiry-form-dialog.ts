@@ -201,11 +201,17 @@ export class EnquiryFormDialog {
     const request = e
       ? this.service.updateEnquiry(e.id, payload)
       : this.service.createEnquiry({ ...payload, leadId: null, enquiryDate: todayIso() });
-    request.subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success(e ? 'Enquiry updated' : 'Enquiry created', v.name);
-      this.saved.emit();
+    request.subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success(e ? 'Enquiry updated' : 'Enquiry created', v.name);
+        this.saved.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

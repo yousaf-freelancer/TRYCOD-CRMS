@@ -4,13 +4,27 @@ import { LucideDynamicIcon } from '@lucide/angular';
 import { AuthService } from '../../../core/auth/auth.service';
 import { PageHeader } from '../../../shared/ui/page-header';
 
-const SECTIONS = [
+interface SettingsSectionLink {
+  label: string;
+  route: string;
+  icon: string;
+  admin: boolean;
+  permission?: string;
+}
+
+const SECTIONS: SettingsSectionLink[] = [
   { label: 'Institute profile', route: 'institute', icon: 'building', admin: true },
   { label: 'Academic year', route: 'academic-year', icon: 'calendar-range', admin: true },
   { label: 'Fee settings', route: 'fees', icon: 'wallet', admin: true },
   { label: 'Attendance rules', route: 'attendance', icon: 'clock', admin: true },
   { label: 'Leave types', route: 'leave-types', icon: 'plane', admin: true },
-  { label: 'Roles & permissions', route: 'roles', icon: 'shield-check', admin: true },
+  {
+    label: 'Roles & permissions',
+    route: 'roles',
+    icon: 'shield-check',
+    admin: true,
+    permission: 'users.manage',
+  },
   { label: 'Notifications', route: 'notifications', icon: 'bell', admin: true },
   { label: 'My account', route: 'account', icon: 'circle-user', admin: false },
 ];
@@ -48,6 +62,10 @@ const SECTIONS = [
 })
 export class SettingsPage {
   private readonly auth = inject(AuthService);
-  protected readonly isAdmin = computed(() => this.auth.role() === 'Admin');
-  protected readonly sections = computed(() => SECTIONS.filter((s) => this.isAdmin() || !s.admin));
+  protected readonly isAdmin = computed(() => this.auth.hasPermission('settings.manage'));
+  protected readonly sections = computed(() =>
+    SECTIONS.filter((s) =>
+      s.permission ? this.auth.hasPermission(s.permission) : this.isAdmin() || !s.admin,
+    ),
+  );
 }

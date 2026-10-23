@@ -57,8 +57,8 @@ const STYLE: Record<PermissionLevel, string> = {
         </table>
       </div>
       <p class="mt-4 text-xs text-muted">
-        The frontend role guard and sidebar use a matching config today; the backend will enforce
-        this matrix per API route.
+        The sidebar and route guards use the permission codes returned by the API; the server
+        enforces this matrix per API route.
       </p>
     </app-settings-section>
   `,
@@ -92,10 +92,16 @@ export class RolesSettings {
 
   protected save(): void {
     this.saving.set(true);
-    this.service.save('permissions', this.rows()).subscribe(() => {
-      this.saving.set(false);
-      this.dirty.set(false);
-      this.toast.success('Permissions saved');
+    this.service.save('permissions', this.rows()).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.dirty.set(false);
+        this.toast.success('Permissions saved');
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

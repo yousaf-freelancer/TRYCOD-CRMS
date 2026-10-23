@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { roleGuard } from '../../../core/auth/auth.guards';
+import { permissionGuard } from '../../../core/auth/auth.guards';
 
 export const ATTENDANCE_ROUTES: Routes = [
   {
@@ -21,8 +21,7 @@ export const ATTENDANCE_ROUTES: Routes = [
       {
         path: 'staff',
         title: 'Staff attendance',
-        data: { roles: ['Admin'] },
-        canActivate: [roleGuard],
+        canActivate: [permissionGuard('attendance.staff.manage')],
         loadComponent: () => import('./staff/staff-attendance').then((m) => m.StaffAttendancePage),
       },
     ],

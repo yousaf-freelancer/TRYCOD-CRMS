@@ -20,6 +20,11 @@ export class AttendancePage {
   protected readonly tabs: TabLink[] = [
     { label: 'Mark attendance', route: 'mark', icon: 'square-check' },
     { label: 'Monthly register', route: 'register', icon: 'table' },
-    { label: 'Staff attendance', route: 'staff', icon: 'fingerprint-pattern', roles: ['Admin'] },
+    {
+      label: 'Staff attendance',
+      route: 'staff',
+      icon: 'fingerprint-pattern',
+      permission: 'attendance.staff.manage',
+    },
   ];
 }

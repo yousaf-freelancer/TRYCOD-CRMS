@@ -244,11 +244,17 @@ export class StudentFormDialog {
         admissionDate: s.admissionDate,
         status: v.status,
       })
-      .subscribe(() => {
-        this.saving.set(false);
-        this.visible.set(false);
-        this.toast.success('Student updated', v.name);
-        this.saved.emit();
+      .subscribe({
+        next: () => {
+          this.saving.set(false);
+          this.visible.set(false);
+          this.toast.success('Student updated', v.name);
+          this.saved.emit();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

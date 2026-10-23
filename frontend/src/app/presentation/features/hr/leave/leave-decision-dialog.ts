@@ -97,14 +97,20 @@ export class LeaveDecisionDialog {
     this.saving.set(true);
     this.service
       .decide(r.id, this.decision(), this.auth.user()?.employeeId ?? '', this.note().trim())
-      .subscribe(() => {
-        this.saving.set(false);
-        this.visible.set(false);
-        this.toast.success(
-          `Leave ${this.decision().toLowerCase()}`,
-          `${r.employeeName} · ${r.days} day(s)`,
-        );
-        this.done.emit();
+      .subscribe({
+        next: () => {
+          this.saving.set(false);
+          this.visible.set(false);
+          this.toast.success(
+            `Leave ${this.decision().toLowerCase()}`,
+            `${r.employeeName} · ${r.days} day(s)`,
+          );
+          this.done.emit();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

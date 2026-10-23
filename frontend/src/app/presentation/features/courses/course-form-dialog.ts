@@ -158,11 +158,17 @@ export class CourseFormDialog {
     const v = { ...this.form.getRawValue(), code: this.form.getRawValue().code.toUpperCase() };
     const c = this.course();
     this.saving.set(true);
-    (c ? this.service.updateCourse(c.id, v) : this.service.createCourse(v)).subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success(c ? 'Course updated' : 'Course added', v.name);
-      this.saved.emit();
+    (c ? this.service.updateCourse(c.id, v) : this.service.createCourse(v)).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success(c ? 'Course updated' : 'Course added', v.name);
+        this.saved.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

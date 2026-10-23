@@ -1,9 +1,9 @@
 import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { roleGuard } from '../../../core/auth/auth.guards';
+import { permissionGuard } from '../../../core/auth/auth.guards';
 import { AuthService } from '../../../core/auth/auth.service';
 
-const admin = { data: { roles: ['Admin'] }, canActivate: [roleGuard] };
+const admin = { canActivate: [permissionGuard('settings.manage')] };
 
 export const SETTINGS_ROUTES: Routes = [
   {
@@ -13,7 +13,8 @@ export const SETTINGS_ROUTES: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: () => (inject(AuthService).role() === 'Admin' ? 'institute' : 'account'),
+        redirectTo: () =>
+          inject(AuthService).hasPermission('settings.manage') ? 'institute' : 'account',
       },
       {
         path: 'account',
@@ -57,7 +58,7 @@ export const SETTINGS_ROUTES: Routes = [
       {
         path: 'roles',
         title: 'Roles & permissions',
-        ...admin,
+        canActivate: [permissionGuard('users.manage')],
         loadComponent: () => import('./sections/roles-settings').then((m) => m.RolesSettings),
       },
       {

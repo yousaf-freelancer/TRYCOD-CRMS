@@ -216,17 +216,23 @@ export class EmployeeFormDialog {
       ...v,
       joiningDate: toIsoDate(joiningDate),
       pan: e?.pan ?? 'XXXXX0000X',
-      reportingTo: e?.reportingTo ?? 'EMP-001',
+      reportingTo: e?.reportingTo ?? null,
     };
     this.saving.set(true);
     (e
       ? this.service.updateEmployee(e.id, input, gross)
       : this.service.createEmployee(input, gross)
-    ).subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success(e ? 'Employee updated' : 'Employee added', v.name);
-      this.saved.emit();
+    ).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success(e ? 'Employee updated' : 'Employee added', v.name);
+        this.saved.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

@@ -145,9 +145,12 @@ export class MyLeavePage {
       danger: true,
     });
     if (!ok) return;
-    this.service.cancel(r.id).subscribe(() => {
-      this.toast.info('Leave request cancelled');
-      this.reload();
+    this.service.cancel(r.id).subscribe({
+      next: () => {
+        this.toast.info('Leave request cancelled');
+        this.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 }

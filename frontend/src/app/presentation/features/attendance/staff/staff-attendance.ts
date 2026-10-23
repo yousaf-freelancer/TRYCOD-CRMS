@@ -111,14 +111,14 @@ import { StaffCorrectionDialog } from './staff-correction-dialog';
           >
             <ng-template #header>
               <tr>
-                <th pSortableColumn="employeeName">Staff <p-sorticon field="employeeName" /></th>
-                <th pSortableColumn="checkIn">Check-in <p-sorticon field="checkIn" /></th>
-                <th pSortableColumn="checkOut">Check-out <p-sorticon field="checkOut" /></th>
+                <th pSortableColumn="employeeName">Staff <p-sortIcon field="employeeName" /></th>
+                <th pSortableColumn="checkIn">Check-in <p-sortIcon field="checkIn" /></th>
+                <th pSortableColumn="checkOut">Check-out <p-sortIcon field="checkOut" /></th>
                 <th pSortableColumn="workingMinutes">
-                  Working hours <p-sorticon field="workingMinutes" />
+                  Working hours <p-sortIcon field="workingMinutes" />
                 </th>
-                <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
-                <th pSortableColumn="source">Source <p-sorticon field="source" /></th>
+                <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
+                <th pSortableColumn="source">Source <p-sortIcon field="source" /></th>
                 <th class="w-20"><span class="sr-only">Actions</span></th>
               </tr>
             </ng-template>
@@ -207,15 +207,15 @@ import { StaffCorrectionDialog } from './staff-correction-dialog';
           >
             <ng-template #header>
               <tr>
-                <th pSortableColumn="employeeName">Staff <p-sorticon field="employeeName" /></th>
-                <th pSortableColumn="workingDays">Days <p-sorticon field="workingDays" /></th>
-                <th pSortableColumn="present">Present <p-sorticon field="present" /></th>
-                <th pSortableColumn="late">Late <p-sorticon field="late" /></th>
-                <th pSortableColumn="halfDay">Half day <p-sorticon field="halfDay" /></th>
-                <th pSortableColumn="absent">Absent <p-sorticon field="absent" /></th>
-                <th pSortableColumn="onLeave">On leave <p-sorticon field="onLeave" /></th>
-                <th pSortableColumn="avgMinutes">Avg. hours <p-sorticon field="avgMinutes" /></th>
-                <th pSortableColumn="pct" class="w-44">Attendance <p-sorticon field="pct" /></th>
+                <th pSortableColumn="employeeName">Staff <p-sortIcon field="employeeName" /></th>
+                <th pSortableColumn="workingDays">Days <p-sortIcon field="workingDays" /></th>
+                <th pSortableColumn="present">Present <p-sortIcon field="present" /></th>
+                <th pSortableColumn="late">Late <p-sortIcon field="late" /></th>
+                <th pSortableColumn="halfDay">Half day <p-sortIcon field="halfDay" /></th>
+                <th pSortableColumn="absent">Absent <p-sortIcon field="absent" /></th>
+                <th pSortableColumn="onLeave">On leave <p-sortIcon field="onLeave" /></th>
+                <th pSortableColumn="avgMinutes">Avg. hours <p-sortIcon field="avgMinutes" /></th>
+                <th pSortableColumn="pct" class="w-44">Attendance <p-sortIcon field="pct" /></th>
               </tr>
             </ng-template>
             <ng-template #body let-s>

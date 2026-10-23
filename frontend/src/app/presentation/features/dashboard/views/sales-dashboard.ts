@@ -86,24 +86,32 @@ import { DashboardSkeleton } from '../ui/dashboard-skeleton';
       <section class="mt-4 grid gap-4 lg:grid-cols-3">
         <app-panel class="lg:col-span-2" title="Answered vs missed" subtitle="Last 7 working days">
           <div class="h-64">
-            <p-chart
-              type="bar"
-              [data]="weekChart()"
-              [options]="stackedOptions"
-              height="100%"
-              ariaLabel="Answered versus missed calls"
-            />
+            @if (d.weekTrend.length) {
+              <p-chart
+                type="bar"
+                [data]="weekChart()"
+                [options]="stackedOptions"
+                height="100%"
+                ariaLabel="Answered versus missed calls"
+              />
+            } @else {
+              <app-empty-state icon="chart-column" title="No data yet" />
+            }
           </div>
         </app-panel>
         <app-panel title="Calls by hour" [subtitle]="dayLabel(d.asOf)">
           <div class="h-64">
-            <p-chart
-              type="bar"
-              [data]="hourChart()"
-              [options]="hourOptions"
-              height="100%"
-              ariaLabel="Calls by hour today"
-            />
+            @if (d.callsByHour.length) {
+              <p-chart
+                type="bar"
+                [data]="hourChart()"
+                [options]="hourOptions"
+                height="100%"
+                ariaLabel="Calls by hour today"
+              />
+            } @else {
+              <app-empty-state icon="chart-column" title="No data yet" />
+            }
           </div>
         </app-panel>
       </section>

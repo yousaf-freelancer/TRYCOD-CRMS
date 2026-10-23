@@ -10,3 +10,242 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// ---- enums/employee-status.enum.prisma ----
+enum EmployeeStatus {
+  ACTIVE
+  ON_LEAVE
+  RESIGNED
+  TERMINATED
+}
+
+// ---- enums/lead.enums.prisma ----
+enum LeadStatus {
+  NEW
+  CONTACTED
+  INTERESTED
+  COUNSELLED
+  CONVERTED
+  LOST
+}
+
+enum LeadSource {
+  WALK_IN
+  PHONE_CALL
+  WEBSITE
+  INSTAGRAM
+  FACEBOOK
+  GOOGLE
+  REFERRAL
+  OTHER
+}
+
+enum FollowUpType {
+  CALL
+  WHATSAPP
+  VISIT
+  MEETING
+  EMAIL
+}
+
+enum FollowUpStatus {
+  PENDING
+  DONE
+  MISSED
+  CANCELLED
+}
+
+// ---- enums/student-status.enum.prisma ----
+enum StudentStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  DROPPED
+}
+
+// ---- enums/user-status.enum.prisma ----
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  LOCKED
+}
+
+// ---- models/course.model.prisma ----
+model Course {
+  id             String   @id @default(uuid(7)) @db.Uuid
+  code           String   @unique
+  name           String
+  durationMonths Int?
+  baseFee            Decimal  @db.Decimal(10, 2)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  leads Lead[]
+}
+
+// ---- models/employee.model.prisma ----
+model Employee {
+  id           String         @id @default(uuid()) @db.Uuid
+  userId       String?        @unique @db.Uuid
+  user         User?          @relation(fields: [userId], references: [id])
+  employeeCode String         @unique
+  firstName    String
+  lastName     String?
+  phone        String
+  email        String?
+  joiningDate  DateTime       @db.Date
+  exitDate     DateTime?      @db.Date
+  status       EmployeeStatus @default(ACTIVE)
+  biometricId  String?        @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  leadsAssigned     Lead[]     @relation("LeadAssignee")
+  followUpsAssigned FollowUp[] @relation("FollowUpAssignee")
+}
+
+// ---- models/follow-up.model.prisma ----
+model FollowUp {
+  id           String         @id @default(uuid(7)) @db.Uuid
+  leadId       String         @db.Uuid
+  lead         Lead           @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  assignedToId String?        @db.Uuid
+  assignedTo   Employee?      @relation("FollowUpAssignee", fields: [assignedToId], references: [id])
+  type         FollowUpType   @default(CALL)
+  dueAt        DateTime
+  status       FollowUpStatus @default(PENDING)
+  outcome      String?
+  completedAt  DateTime?
+  createdAt    DateTime       @default(now())
+
+  @@index([leadId])
+  @@index([assignedToId, dueAt])
+}
+
+// ---- models/lead.model.prisma ----
+model Lead {
+  id           String     @id @default(uuid(7)) @db.Uuid
+  name         String
+  phone        String
+  altPhone     String?
+  email        String?
+  city         String?
+  source       LeadSource @default(OTHER)
+  status       LeadStatus @default(NEW)
+  courseId     String?    @db.Uuid
+  course       Course?    @relation(fields: [courseId], references: [id])
+  assignedToId String?    @db.Uuid
+  assignedTo   Employee?  @relation("LeadAssignee", fields: [assignedToId], references: [id])
+  notes        String?
+  lostReason   String?
+  studentId    String?    @unique @db.Uuid
+  student      Student?   @relation(fields: [studentId], references: [id])
+  convertedAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  followUps FollowUp[]
+
+  @@index([phone])
+  @@index([status])
+  @@index([assignedToId])
+}
+
+// ---- models/permission.model.prisma ----
+model Permission {
+  id          String  @id @default(uuid()) @db.Uuid
+  code        String  @unique
+  module      String
+  description String?
+
+  roles RolePermission[]
+}
+
+// ---- models/role-permission.model.prisma ----
+model RolePermission {
+  roleId       String     @db.Uuid
+  permissionId String     @db.Uuid
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+// ---- models/role.model.prisma ----
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique
+  name        String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+// ---- models/session.model.prisma ----
+model Session {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  lastUsedAt DateTime  @default(now())
+  revokedAt  DateTime?
+  userAgent  String?
+  ipAddress  String?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+}
+
+// ---- models/student.model.prisma ----
+model Student {
+  id            String        @id @default(uuid()) @db.Uuid
+  userId        String?       @unique @db.Uuid
+  user          User?         @relation(fields: [userId], references: [id])
+  admissionNo   String        @unique
+  firstName     String
+  lastName      String?
+  phone         String
+  email         String?
+  dateOfBirth   DateTime?     @db.Date
+  guardianName  String?
+  guardianPhone String?
+  status        StudentStatus @default(ACTIVE)
+  biometricId   String?       @unique
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  lead Lead?
+}
+
+// ---- models/user-role.model.prisma ----
+model UserRole {
+  userId     String   @db.Uuid
+  roleId     String   @db.Uuid
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role       Role     @relation(fields: [roleId], references: [id])
+  assignedAt DateTime @default(now())
+
+  @@id([userId, roleId])
+}
+
+// ---- models/user.model.prisma ----
+model User {
+  id           String     @id @default(uuid()) @db.Uuid
+  email        String?    @unique
+  phone        String?    @unique
+  passwordHash String
+  status       UserStatus @default(ACTIVE)
+  lastLoginAt  DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  roles    UserRole[]
+  sessions Session[]
+  employee Employee?
+  student  Student?
+}

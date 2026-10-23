@@ -117,16 +117,16 @@ import { LeadFormDialog } from './lead-form-dialog';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="id" class="w-28">ID <p-sorticon field="id" /></th>
-              <th pSortableColumn="name">Name <p-sorticon field="name" /></th>
+              <th pSortableColumn="id" class="w-28">ID <p-sortIcon field="id" /></th>
+              <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
               <th>Contact</th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="source">Source <p-sorticon field="source" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="source">Source <p-sortIcon field="source" /></th>
               <th pSortableColumn="assignedToName">
-                Assigned to <p-sorticon field="assignedToName" />
+                Assigned to <p-sortIcon field="assignedToName" />
               </th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
-              <th pSortableColumn="createdOn">Created <p-sorticon field="createdOn" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
+              <th pSortableColumn="createdOn">Created <p-sortIcon field="createdOn" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>
@@ -284,11 +284,14 @@ export class LeadsTab {
     this.service
       .createEnquiryFromLead(
         lead.id,
-        this.auth.hasRole('Advisor') ? this.auth.user()!.employeeId! : 'EMP-003',
+        this.auth.hasRole('Advisor') ? (this.auth.user()?.employeeId ?? '') : '',
       )
-      .subscribe(() => {
-        this.toast.success('Moved to enquiries', `${lead.name} is now an enquiry.`);
-        this.leads.reload();
+      .subscribe({
+        next: () => {
+          this.toast.success('Moved to enquiries', `${lead.name} is now an enquiry.`);
+          this.leads.reload();
+        },
+        error: (e: Error) => this.toast.error('Could not complete the action', e.message),
       });
   }
 
@@ -299,9 +302,12 @@ export class LeadsTab {
       acceptLabel: 'Mark lost',
     });
     if (!ok) return;
-    this.service.updateLead(lead.id, { status: 'Lost' }).subscribe(() => {
-      this.toast.info('Lead marked as lost', lead.name);
-      this.leads.reload();
+    this.service.updateLead(lead.id, { status: 'Lost' }).subscribe({
+      next: () => {
+        this.toast.info('Lead marked as lost', lead.name);
+        this.leads.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 
@@ -313,9 +319,12 @@ export class LeadsTab {
       danger: true,
     });
     if (!ok) return;
-    this.service.deleteLead(lead.id).subscribe(() => {
-      this.toast.success('Lead deleted');
-      this.leads.reload();
+    this.service.deleteLead(lead.id).subscribe({
+      next: () => {
+        this.toast.success('Lead deleted');
+        this.leads.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 

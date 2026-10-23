@@ -88,11 +88,11 @@ import { ReportSummary, SummaryItem } from '../ui/report-summary';
           >
             <ng-template #header>
               <tr>
-                <th pSortableColumn="admissionDate">Date <p-sorticon field="admissionDate" /></th>
-                <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
-                <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
+                <th pSortableColumn="admissionDate">Date <p-sortIcon field="admissionDate" /></th>
+                <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
+                <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
                 <th>Batch</th>
-                <th pSortableColumn="advisorName">Advisor <p-sorticon field="advisorName" /></th>
+                <th pSortableColumn="advisorName">Advisor <p-sortIcon field="advisorName" /></th>
                 <th class="text-right">Net fee</th>
                 <th>Status</th>
               </tr>

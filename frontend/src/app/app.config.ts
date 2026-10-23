@@ -1,5 +1,10 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
 import {
   TitleStrategy,
   provideRouter,
@@ -8,9 +13,9 @@ import {
 } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
-import { environment } from '../environments/environment';
 import { routes } from './app.routes';
-import { apiInterceptor } from './core/http/api.interceptor';
+import { AuthService } from './core/auth/auth.service';
+import { authInterceptor } from './core/http/api.interceptor';
 import { PageTitleStrategy } from './core/navigation/page-title.strategy';
 import { provideAppIcons } from './core/theme/icons';
 import { TrycodPreset } from './core/theme/trycod-preset';
@@ -24,11 +29,11 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top', anchorScrolling: 'enabled' }),
     ),
     { provide: TitleStrategy, useExisting: PageTitleStrategy },
-    // Configured for the future NestJS API; no requests are made yet.
-    provideHttpClient(withFetch(), withInterceptors([apiInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    // Restore the session from a stored token before the first navigation.
+    provideAppInitializer(() => inject(AuthService).restoreSession()),
     providePrimeNG({
       ripple: false,
-      license: environment.primeLicenseKey || undefined,
       theme: {
         preset: TrycodPreset,
         options: {

@@ -99,16 +99,16 @@ type DueView = 'overdue' | 'week' | 'month' | 'all';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
+              <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
               <th>Phone</th>
-              <th pSortableColumn="batchCode">Batch <p-sorticon field="batchCode" /></th>
-              <th pSortableColumn="installmentNo">Inst. <p-sorticon field="installmentNo" /></th>
-              <th pSortableColumn="dueDate">Due date <p-sorticon field="dueDate" /></th>
-              <th pSortableColumn="daysOverdue">Days overdue <p-sorticon field="daysOverdue" /></th>
+              <th pSortableColumn="batchCode">Batch <p-sortIcon field="batchCode" /></th>
+              <th pSortableColumn="installmentNo">Inst. <p-sortIcon field="installmentNo" /></th>
+              <th pSortableColumn="dueDate">Due date <p-sortIcon field="dueDate" /></th>
+              <th pSortableColumn="daysOverdue">Days overdue <p-sortIcon field="daysOverdue" /></th>
               <th pSortableColumn="balance" class="text-right">
-                Balance <p-sorticon field="balance" />
+                Balance <p-sortIcon field="balance" />
               </th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>

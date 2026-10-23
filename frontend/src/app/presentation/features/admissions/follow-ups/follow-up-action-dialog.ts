@@ -156,18 +156,24 @@ export class FollowUpActionDialog {
         : this.action() === 'reschedule'
           ? this.service.rescheduleFollowUp(f.id, toIsoDate(v.date), v.time, by)
           : this.service.addFollowUpNote(f.id, v.note, by);
-    request.subscribe(() => {
-      this.saving.set(false);
-      this.visible.set(false);
-      this.toast.success(
-        this.action() === 'complete'
-          ? 'Follow-up completed'
-          : this.action() === 'reschedule'
-            ? 'Follow-up rescheduled'
-            : 'Note added',
-        f.name,
-      );
-      this.done.emit();
+    request.subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.visible.set(false);
+        this.toast.success(
+          this.action() === 'complete'
+            ? 'Follow-up completed'
+            : this.action() === 'reschedule'
+              ? 'Follow-up rescheduled'
+              : 'Note added',
+          f.name,
+        );
+        this.done.emit();
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

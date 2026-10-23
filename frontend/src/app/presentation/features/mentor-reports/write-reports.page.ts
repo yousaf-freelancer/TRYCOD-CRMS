@@ -283,10 +283,16 @@ export class WriteReportsPage {
         weekStart: this.week(),
         reports: this.drafts(),
       })
-      .subscribe((n) => {
-        this.saving.set(false);
-        this.toast.success('Reports submitted', `${n} student reports for ${batch.code}.`);
-        this.draft.reload();
+      .subscribe({
+        next: (n) => {
+          this.saving.set(false);
+          this.toast.success('Reports submitted', `${n} student reports for ${batch.code}.`);
+          this.draft.reload();
+        },
+        error: (e: Error) => {
+          this.saving.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 }

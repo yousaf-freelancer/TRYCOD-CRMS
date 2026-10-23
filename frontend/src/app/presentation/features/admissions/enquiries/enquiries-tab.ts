@@ -94,18 +94,18 @@ import { EnquiryFormDialog } from './enquiry-form-dialog';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="id" class="w-28">ID <p-sorticon field="id" /></th>
-              <th pSortableColumn="name">Name <p-sorticon field="name" /></th>
+              <th pSortableColumn="id" class="w-28">ID <p-sortIcon field="id" /></th>
+              <th pSortableColumn="name">Name <p-sortIcon field="name" /></th>
               <th>Phone</th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="source">Source <p-sorticon field="source" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="source">Source <p-sortIcon field="source" /></th>
               <th pSortableColumn="assignedToName">
-                Counsellor <p-sorticon field="assignedToName" />
+                Counsellor <p-sortIcon field="assignedToName" />
               </th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
-              <th pSortableColumn="enquiryDate">Enquiry date <p-sorticon field="enquiryDate" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
+              <th pSortableColumn="enquiryDate">Enquiry date <p-sortIcon field="enquiryDate" /></th>
               <th pSortableColumn="nextFollowUp">
-                Next follow-up <p-sorticon field="nextFollowUp" />
+                Next follow-up <p-sortIcon field="nextFollowUp" />
               </th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
@@ -265,9 +265,12 @@ export class EnquiriesTab {
       acceptLabel: 'Close enquiry',
     });
     if (!ok) return;
-    this.service.updateEnquiry(e.id, { status: 'Closed', nextFollowUp: null }).subscribe(() => {
-      this.toast.info('Enquiry closed', e.name);
-      this.enquiries.reload();
+    this.service.updateEnquiry(e.id, { status: 'Closed', nextFollowUp: null }).subscribe({
+      next: () => {
+        this.toast.info('Enquiry closed', e.name);
+        this.enquiries.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 
@@ -279,9 +282,12 @@ export class EnquiriesTab {
       danger: true,
     });
     if (!ok) return;
-    this.service.deleteEnquiry(e.id).subscribe(() => {
-      this.toast.success('Enquiry deleted');
-      this.enquiries.reload();
+    this.service.deleteEnquiry(e.id).subscribe({
+      next: () => {
+        this.toast.success('Enquiry deleted');
+        this.enquiries.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { roleGuard } from '../../../core/auth/auth.guards';
-import { ROUTE_ROLES } from '../../../core/navigation/nav.config';
 
 export const ADMISSIONS_ROUTES: Routes = [
   {
@@ -26,7 +25,7 @@ export const ADMISSIONS_ROUTES: Routes = [
       {
         path: 'admissions',
         title: 'Admissions',
-        data: { roles: ROUTE_ROLES.admissionsOnly },
+        data: { roles: ['Admin', 'Advisor'] },
         canActivate: [roleGuard],
         loadComponent: () =>
           import('./admissions-list/admissions-tab').then((m) => m.AdmissionsTab),

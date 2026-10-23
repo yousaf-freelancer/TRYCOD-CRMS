@@ -135,13 +135,17 @@ const ACTIVITY_ICONS: Record<ActivityKind, string> = {
           subtitle="Monthly collections, last 7 months"
         >
           <div class="h-64">
-            <p-chart
-              type="bar"
-              [data]="feeChart()"
-              [options]="inrOptions"
-              height="100%"
-              ariaLabel="Monthly fee collection chart"
-            />
+            @if (d.feeTrend.length) {
+              <p-chart
+                type="bar"
+                [data]="feeChart()"
+                [options]="inrOptions"
+                height="100%"
+                ariaLabel="Monthly fee collection chart"
+              />
+            } @else {
+              <app-empty-state icon="chart-column" title="No data yet" />
+            }
           </div>
         </app-panel>
         <app-panel title="Admissions funnel" subtitle="Last 30 days">
@@ -156,24 +160,32 @@ const ACTIVITY_ICONS: Record<ActivityKind, string> = {
           subtitle="Daily attendance %, last 30 days"
         >
           <div class="h-64">
-            <p-chart
-              type="line"
-              [data]="attendanceChart()"
-              [options]="percentOptions"
-              height="100%"
-              ariaLabel="Attendance trend chart"
-            />
+            @if (d.attendanceTrend.length) {
+              <p-chart
+                type="line"
+                [data]="attendanceChart()"
+                [options]="percentOptions"
+                height="100%"
+                ariaLabel="Attendance trend chart"
+              />
+            } @else {
+              <app-empty-state icon="chart-column" title="No data yet" />
+            }
           </div>
         </app-panel>
         <app-panel title="Batch strength" subtitle="Active students per batch">
           <div class="h-64">
-            <p-chart
-              type="bar"
-              [data]="strengthChart()"
-              [options]="strengthOptions"
-              height="100%"
-              ariaLabel="Students per batch chart"
-            />
+            @if (d.batchStrength.length) {
+              <p-chart
+                type="bar"
+                [data]="strengthChart()"
+                [options]="strengthOptions"
+                height="100%"
+                ariaLabel="Students per batch chart"
+              />
+            } @else {
+              <app-empty-state icon="chart-column" title="No data yet" />
+            }
           </div>
         </app-panel>
       </section>

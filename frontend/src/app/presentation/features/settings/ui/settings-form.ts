@@ -39,11 +39,17 @@ export function settingsForm<K extends keyof AppSettings>(
       return;
     }
     saving.set(true);
-    service.save(section, toValue()).subscribe(() => {
-      saving.set(false);
-      form.markAsPristine();
-      dirty.set(false);
-      toast.success('Settings saved');
+    service.save(section, toValue()).subscribe({
+      next: () => {
+        saving.set(false);
+        form.markAsPristine();
+        dirty.set(false);
+        toast.success('Settings saved');
+      },
+      error: (e: Error) => {
+        saving.set(false);
+        toast.error('Could not complete the action', e.message);
+      },
     });
   };
 

@@ -1,8 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { AuthService } from '../../core/auth/auth.service';
-import { MockDb } from '../mock/mock-db';
-import { mockCompute } from '../mock/mock-response';
+import { Observable, catchError, of, tap } from 'rxjs';
+import { ApiClient } from '../../core/http/api-client';
 import { AppNotification } from '../../domain/models';
 
 /**
@@ -11,36 +9,30 @@ import { AppNotification } from '../../domain/models';
  */
 @Injectable({ providedIn: 'root' })
 export class NotificationsService {
-  private readonly db = inject(MockDb);
-  private readonly auth = inject(AuthService);
+  private readonly api = inject(ApiClient);
 
   private readonly _items = signal<AppNotification[]>([]);
   readonly items = this._items.asReadonly();
   readonly unreadCount = computed(() => this._items().filter((n) => !n.read).length);
 
   getNotifications(): Observable<AppNotification[]> {
-    return mockCompute(() => {
-      const role = this.auth.role();
-      return this.db.notifications
-        .filter((n) => role !== null && n.audience.includes(role))
-        .sort((a, b) => b.at.localeCompare(a.at));
-    }).pipe(tap((items) => this._items.set(items)));
+    return this.api
+      .get<AppNotification[]>('notifications', [])
+      .pipe(tap((items) => this._items.set(items)));
   }
 
+  /** Optimistic: the local state updates immediately; a failed sync is ignored. */
   markRead(id: string): Observable<void> {
     this.setRead((n) => n.id === id);
-    return mockCompute(() => undefined, 150);
+    return this.api.patch<void>(`notifications/${id}/read`).pipe(catchError(() => of(undefined)));
   }
 
   markAllRead(): Observable<void> {
     this.setRead(() => true);
-    return mockCompute(() => undefined, 150);
+    return this.api.post<void>('notifications/read-all').pipe(catchError(() => of(undefined)));
   }
 
   private setRead(match: (n: AppNotification) => boolean): void {
-    this.db.notifications.forEach((n) => {
-      if (match(n)) n.read = true;
-    });
     this._items.update((items) => items.map((n) => (match(n) ? { ...n, read: true } : n)));
   }
 }

@@ -149,12 +149,12 @@ import { ReportTimeline } from './ui/report-timeline';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="weekStart">Week <p-sorticon field="weekStart" /></th>
-              <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
-              <th pSortableColumn="batchCode">Batch <p-sorticon field="batchCode" /></th>
-              <th pSortableColumn="mentorName">Mentor <p-sorticon field="mentorName" /></th>
+              <th pSortableColumn="weekStart">Week <p-sortIcon field="weekStart" /></th>
+              <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
+              <th pSortableColumn="batchCode">Batch <p-sortIcon field="batchCode" /></th>
+              <th pSortableColumn="mentorName">Mentor <p-sortIcon field="mentorName" /></th>
               <th pSortableColumn="progressRating">
-                Progress <p-sorticon field="progressRating" />
+                Progress <p-sortIcon field="progressRating" />
               </th>
               <th>Strengths</th>
               <th class="w-20"></th>

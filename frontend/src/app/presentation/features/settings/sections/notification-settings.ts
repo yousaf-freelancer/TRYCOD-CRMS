@@ -52,8 +52,7 @@ type Channel = 'inApp' | 'email' | 'sms';
         </table>
       </div>
       <p class="mt-4 text-xs text-muted">
-        Email and SMS delivery will be handled by the backend (e.g. SES / MSG91). In this demo only
-        in-app notifications are shown.
+        Email and SMS delivery is handled by the server (e.g. SES / MSG91).
       </p>
     </app-settings-section>
   `,
@@ -86,10 +85,16 @@ export class NotificationSettings {
 
   protected save(): void {
     this.saving.set(true);
-    this.service.save('notificationPrefs', this.prefs()).subscribe(() => {
-      this.saving.set(false);
-      this.dirty.set(false);
-      this.toast.success('Notification preferences saved');
+    this.service.save('notificationPrefs', this.prefs()).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.dirty.set(false);
+        this.toast.success('Notification preferences saved');
+      },
+      error: (e: Error) => {
+        this.saving.set(false);
+        this.toast.error('Could not complete the action', e.message);
+      },
     });
   }
 }

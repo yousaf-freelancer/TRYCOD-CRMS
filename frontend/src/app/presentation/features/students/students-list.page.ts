@@ -129,16 +129,16 @@ import { StudentFormDialog } from './student-form-dialog';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="name">Student <p-sorticon field="name" /></th>
+              <th pSortableColumn="name">Student <p-sortIcon field="name" /></th>
               <th>Phone</th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="batchCode">Batch <p-sorticon field="batchCode" /></th>
-              <th pSortableColumn="mentorName">Mentor <p-sorticon field="mentorName" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="batchCode">Batch <p-sortIcon field="batchCode" /></th>
+              <th pSortableColumn="mentorName">Mentor <p-sortIcon field="mentorName" /></th>
               <th pSortableColumn="attendancePct" class="w-40">
-                Attendance <p-sorticon field="attendancePct" />
+                Attendance <p-sortIcon field="attendancePct" />
               </th>
-              <th pSortableColumn="feeStatus">Fees <p-sorticon field="feeStatus" /></th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="feeStatus">Fees <p-sortIcon field="feeStatus" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>
@@ -318,9 +318,12 @@ export class StudentsListPage {
       danger: true,
     });
     if (!ok) return;
-    this.service.deleteStudent(s.id).subscribe(() => {
-      this.toast.success('Student deleted', s.name);
-      this.students.reload();
+    this.service.deleteStudent(s.id).subscribe({
+      next: () => {
+        this.toast.success('Student deleted', s.name);
+        this.students.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 

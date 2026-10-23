@@ -21,7 +21,7 @@ import { TabLink, TabNav } from '../../../shared/ui/tab-nav';
 export class FeesPage {
   protected readonly tabs: TabLink[] = [
     { label: 'Overview', route: 'overview', icon: 'chart-pie' },
-    { label: 'Collect fee', route: 'collect', icon: 'hand-coins' },
+    { label: 'Collect fee', route: 'collect', icon: 'hand-coins', permission: 'fees.collect' },
     { label: 'Payments', route: 'payments', icon: 'receipt' },
     { label: 'Pending & overdue', route: 'dues', icon: 'hourglass' },
   ];

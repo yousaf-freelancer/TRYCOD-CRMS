@@ -55,8 +55,8 @@ import { CallsService } from '../../../data/services/calls.service';
     >
       <svg lucideIcon="plug-zap" size="16" class="mt-0.5 shrink-0 text-ink" />
       <p>
-        Calls will be synced automatically from the telephony provider (IVR / cloud telephony). The
-        data below is sample data for the demo — no calls are placed from this app.
+        Calls are synced automatically from the telephony provider (IVR / cloud telephony). No calls
+        are placed from this app.
       </p>
     </div>
 
@@ -187,16 +187,16 @@ import { CallsService } from '../../../data/services/calls.service';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="at">Date & time <p-sorticon field="at" /></th>
+              <th pSortableColumn="at">Date & time <p-sortIcon field="at" /></th>
               <th pSortableColumn="salespersonName">
-                Salesperson <p-sorticon field="salespersonName" />
+                Salesperson <p-sortIcon field="salespersonName" />
               </th>
               <th>Phone number</th>
-              <th pSortableColumn="leadName">Lead <p-sorticon field="leadName" /></th>
-              <th pSortableColumn="direction">Direction <p-sorticon field="direction" /></th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="leadName">Lead <p-sortIcon field="leadName" /></th>
+              <th pSortableColumn="direction">Direction <p-sortIcon field="direction" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th pSortableColumn="durationSec" class="text-right">
-                Duration <p-sorticon field="durationSec" />
+                Duration <p-sortIcon field="durationSec" />
               </th>
             </tr>
           </ng-template>

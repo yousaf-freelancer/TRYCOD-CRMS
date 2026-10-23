@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { permissionGuard } from '../../../core/auth/auth.guards';
 
 export const HR_ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'employees' },
@@ -21,6 +22,7 @@ export const HR_ROUTES: Routes = [
   {
     path: 'payroll',
     title: 'Payroll',
+    canActivate: [permissionGuard('payroll.manage')],
     loadComponent: () => import('./payroll/payroll.page').then((m) => m.PayrollPage),
   },
   {

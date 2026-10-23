@@ -76,14 +76,14 @@ import { ReportSummary, SummaryItem } from '../ui/report-summary';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="employeeName">Employee <p-sorticon field="employeeName" /></th>
+              <th pSortableColumn="employeeName">Employee <p-sortIcon field="employeeName" /></th>
               <th>Days</th>
               <th>Present</th>
               <th>Late</th>
               <th>Absent</th>
               <th>Leave</th>
               <th>Avg. hours</th>
-              <th pSortableColumn="pct" class="w-48">Attendance <p-sorticon field="pct" /></th>
+              <th pSortableColumn="pct" class="w-48">Attendance <p-sortIcon field="pct" /></th>
             </tr>
           </ng-template>
           <ng-template #body let-s>

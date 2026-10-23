@@ -59,14 +59,14 @@ import { CoursesService } from '../../../data/services/courses.service';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="name">Course <p-sorticon field="name" /></th>
-              <th pSortableColumn="code">Code <p-sorticon field="code" /></th>
-              <th pSortableColumn="category">Category <p-sorticon field="category" /></th>
+              <th pSortableColumn="name">Course <p-sortIcon field="name" /></th>
+              <th pSortableColumn="code">Code <p-sortIcon field="code" /></th>
+              <th pSortableColumn="category">Category <p-sortIcon field="category" /></th>
               <th pSortableColumn="durationMonths">
-                Duration <p-sorticon field="durationMonths" />
+                Duration <p-sortIcon field="durationMonths" />
               </th>
-              <th pSortableColumn="fee" class="text-right">Fee <p-sorticon field="fee" /></th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="fee" class="text-right">Fee <p-sortIcon field="fee" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>
@@ -140,9 +140,12 @@ export class CoursesList {
         command: () =>
           this.service
             .updateCourse(c.id, { ...c, status: c.status === 'Active' ? 'Inactive' : 'Active' })
-            .subscribe(() => {
-              this.toast.success('Course updated', c.name);
-              this.courses.reload();
+            .subscribe({
+              next: () => {
+                this.toast.success('Course updated', c.name);
+                this.courses.reload();
+              },
+              error: (e: Error) => this.toast.error('Could not complete the action', e.message),
             }),
       },
       { label: 'Delete', icon: 'trash', danger: true, command: () => this.remove(c) },

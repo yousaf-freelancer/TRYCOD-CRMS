@@ -9,10 +9,10 @@ export const authGuard: CanActivateFn = () => {
   return auth.isAuthenticated() || inject(Router).createUrlTree(['/login']);
 };
 
-/** Keeps signed-in users away from the login screens. */
+/** Keeps signed-in users away from the login screen. */
 export const guestGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
-  return !auth.isAuthenticated() || inject(Router).createUrlTree([auth.homeFor(auth.role())]);
+  return !auth.isAuthenticated() || inject(Router).createUrlTree([auth.homeUrl()]);
 };
 
 /** Staff shell: students are sent to their portal. */
@@ -22,16 +22,19 @@ export const staffGuard: CanActivateFn = () => {
   return !auth.isStudent() || inject(Router).createUrlTree(['/portal']);
 };
 
-/** Student portal: staff are sent to their dashboard. */
-export const studentGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
-  if (!auth.isAuthenticated()) return inject(Router).createUrlTree(['/login']);
-  return auth.isStudent() || inject(Router).createUrlTree(['/dashboard']);
-};
+/** Allows the route only when the user holds the given permission code. */
+export function permissionGuard(permission: string): CanActivateFn {
+  return () => {
+    const auth = inject(AuthService);
+    const router = inject(Router);
+    if (!auth.isAuthenticated()) return router.createUrlTree(['/login']);
+    return auth.hasPermission(permission) || router.createUrlTree(['/forbidden']);
+  };
+}
 
 /**
- * Allows the route only for `data.roles`. Routes without `data.roles` are
- * open to any signed-in user.
+ * Narrows a section to specific roles for role-specific views (e.g. the
+ * admissions list is not shown to sales staff). Prefer `permissionGuard`.
  */
 export const roleGuard: CanActivateFn = (route) => {
   const auth = inject(AuthService);
@@ -42,8 +45,5 @@ export const roleGuard: CanActivateFn = (route) => {
   return router.createUrlTree(['/forbidden']);
 };
 
-/** `/` → the right home for the current role (or login). */
-export const homeRedirect: RedirectFunction = () => {
-  const auth = inject(AuthService);
-  return auth.homeFor(auth.role());
-};
+/** `/` → the right home for the current user (or login). */
+export const homeRedirect: RedirectFunction = () => inject(AuthService).homeUrl();

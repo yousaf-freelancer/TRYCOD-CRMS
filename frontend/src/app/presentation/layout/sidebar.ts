@@ -5,7 +5,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { Avatar } from '../../shared/ui/avatar';
 import { Logo } from '../../shared/ui/logo';
 import { AuthService } from '../../core/auth/auth.service';
-import { navForRole } from '../../core/navigation/nav.config';
+import { navFor } from '../../core/navigation/nav.config';
 
 /**
  * Dark (brand black) sidebar. Each nav item has a colour-coded icon so
@@ -100,7 +100,7 @@ import { navForRole } from '../../core/navigation/nav.config';
           @if (!collapsed()) {
             <span class="min-w-0">
               <span class="block truncate text-[13px] font-semibold text-white">{{ u.name }}</span>
-              <span class="block truncate text-xs text-neutral-400">{{ u.role }} · {{ u.title }}</span>
+              <span class="block truncate text-xs text-neutral-400">{{ roleLabel() }}</span>
             </span>
           }
         </a>
@@ -132,5 +132,8 @@ export class Sidebar {
   readonly navigate = output<void>();
 
   protected readonly user = this.auth.user;
-  protected readonly sections = computed(() => navForRole(this.auth.role()));
+  protected readonly roleLabel = this.auth.roleLabel;
+  protected readonly sections = computed(() =>
+    navFor((p) => this.auth.hasPermission(p), this.auth.role()),
+  );
 }

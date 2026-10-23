@@ -1,0 +1,12 @@
+model Course {
+  id             String   @id @default(uuid(7)) @db.Uuid
+  code           String   @unique
+  name           String
+  durationMonths Int?
+  baseFee            Decimal  @db.Decimal(10, 2)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  leads Lead[]
+}

@@ -30,9 +30,7 @@ import { StudentsService } from '../../../../data/services/students.service';
       <span class="mt-3 text-sm font-medium">{{
         uploading() ? 'Uploading…' : 'Upload a document'
       }}</span>
-      <span class="mt-1 text-xs text-muted"
-        >Drag & drop or click · PDF, JPG or PNG up to 5 MB (stored locally in this demo)</span
-      >
+      <span class="mt-1 text-xs text-muted">Drag & drop or click · PDF, JPG or PNG up to 5 MB</span>
       <input
         type="file"
         class="sr-only"
@@ -135,10 +133,16 @@ export class StudentDocuments {
         file.name,
         Math.max(1, Math.round(file.size / 1024)),
       )
-      .subscribe(() => {
-        this.uploading.set(false);
-        this.toast.success('Document uploaded', file.name);
-        this.docs.reload();
+      .subscribe({
+        next: () => {
+          this.uploading.set(false);
+          this.toast.success('Document uploaded', file.name);
+          this.docs.reload();
+        },
+        error: (e: Error) => {
+          this.uploading.set(false);
+          this.toast.error('Could not complete the action', e.message);
+        },
       });
   }
 

@@ -84,13 +84,13 @@ import { ReportSummary, SummaryItem } from '../ui/report-summary';
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
+              <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
               <th>Course</th>
               <th>Batch</th>
-              <th pSortableColumn="dueDate">Due <p-sorticon field="dueDate" /></th>
-              <th pSortableColumn="daysOverdue">Overdue <p-sorticon field="daysOverdue" /></th>
+              <th pSortableColumn="dueDate">Due <p-sortIcon field="dueDate" /></th>
+              <th pSortableColumn="daysOverdue">Overdue <p-sortIcon field="daysOverdue" /></th>
               <th pSortableColumn="balance" class="text-right">
-                Balance <p-sorticon field="balance" />
+                Balance <p-sortIcon field="balance" />
               </th>
               <th>Status</th>
             </tr>

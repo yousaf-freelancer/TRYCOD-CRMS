@@ -1,22 +1,59 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MockDb } from '../mock/mock-db';
-import { mockCompute } from '../mock/mock-response';
+import { ApiClient } from '../../core/http/api-client';
 import { AppSettings } from '../../domain/models';
 
-/** Institute settings. Later: `GET /api/settings`, `PATCH /api/settings/:section`. */
+/** Blank settings shown until the API returns the institute's configuration. */
+const EMPTY_SETTINGS: AppSettings = {
+  institute: {
+    name: '',
+    legalName: '',
+    tagline: '',
+    email: '',
+    phone: '',
+    website: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    gstin: '',
+  },
+  academicYear: { label: '', startDate: '', endDate: '', weeklyOff: '', holidays: [] },
+  fees: {
+    allowInstallments: false,
+    maxInstallments: 0,
+    minDownPaymentPct: 0,
+    installmentGapDays: 0,
+    lateFeeType: 'Flat',
+    lateFeeValue: 0,
+    graceDays: 0,
+    receiptPrefix: '',
+    reminderDaysBefore: 0,
+  },
+  attendance: {
+    officeStart: '',
+    officeEnd: '',
+    staffLateAfterMin: 0,
+    halfDayBelowHours: 0,
+    fullDayHours: 0,
+    studentLateAfterMin: 0,
+    lowAttendanceAlertPct: 0,
+    autoMarkAbsentAfter: '',
+  },
+  permissions: [],
+  notificationPrefs: [],
+};
+
+/** Institute settings: `GET /settings`, `PATCH /settings/:section`. */
 @Injectable({ providedIn: 'root' })
 export class SettingsService {
-  private readonly db = inject(MockDb);
+  private readonly api = inject(ApiClient);
 
   getSettings(): Observable<AppSettings> {
-    return mockCompute(() => this.db.settings);
+    return this.api.get<AppSettings>('settings', structuredClone(EMPTY_SETTINGS));
   }
 
   save<K extends keyof AppSettings>(section: K, value: AppSettings[K]): Observable<AppSettings[K]> {
-    return mockCompute(() => {
-      this.db.settings = { ...this.db.settings, [section]: structuredClone(value) };
-      return this.db.settings[section];
-    }, 500);
+    return this.api.patch<AppSettings[K]>(`settings/${section}`, value);
   }
 }

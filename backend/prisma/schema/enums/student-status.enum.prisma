@@ -1,0 +1,6 @@
+enum StudentStatus {
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  DROPPED
+}

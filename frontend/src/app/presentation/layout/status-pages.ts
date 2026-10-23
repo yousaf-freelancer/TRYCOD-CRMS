@@ -23,7 +23,7 @@ export class ForbiddenPage {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
   protected home(): void {
-    void this.router.navigateByUrl(this.auth.homeFor(this.auth.role()));
+    void this.router.navigateByUrl(this.auth.homeUrl());
   }
 }
 
@@ -47,6 +47,6 @@ export class NotFoundPage {
   private readonly router = inject(Router);
   private readonly auth = inject(AuthService);
   protected home(): void {
-    void this.router.navigateByUrl(this.auth.homeFor(this.auth.role()));
+    void this.router.navigateByUrl(this.auth.homeUrl());
   }
 }

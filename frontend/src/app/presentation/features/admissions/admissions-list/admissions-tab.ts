@@ -85,14 +85,14 @@ import { AdmissionsService } from '../../../../data/services/admissions.service'
         >
           <ng-template #header>
             <tr>
-              <th pSortableColumn="id" class="w-28">Admission <p-sorticon field="id" /></th>
-              <th pSortableColumn="studentName">Student <p-sorticon field="studentName" /></th>
-              <th pSortableColumn="courseName">Course <p-sorticon field="courseName" /></th>
-              <th pSortableColumn="batchCode">Batch <p-sorticon field="batchCode" /></th>
-              <th pSortableColumn="admissionDate">Date <p-sorticon field="admissionDate" /></th>
-              <th pSortableColumn="advisorName">Advisor <p-sorticon field="advisorName" /></th>
-              <th pSortableColumn="feePlan">Fee plan <p-sorticon field="feePlan" /></th>
-              <th pSortableColumn="status">Status <p-sorticon field="status" /></th>
+              <th pSortableColumn="id" class="w-28">Admission <p-sortIcon field="id" /></th>
+              <th pSortableColumn="studentName">Student <p-sortIcon field="studentName" /></th>
+              <th pSortableColumn="courseName">Course <p-sortIcon field="courseName" /></th>
+              <th pSortableColumn="batchCode">Batch <p-sortIcon field="batchCode" /></th>
+              <th pSortableColumn="admissionDate">Date <p-sortIcon field="admissionDate" /></th>
+              <th pSortableColumn="advisorName">Advisor <p-sortIcon field="advisorName" /></th>
+              <th pSortableColumn="feePlan">Fee plan <p-sortIcon field="feePlan" /></th>
+              <th pSortableColumn="status">Status <p-sortIcon field="status" /></th>
               <th class="w-14"><span class="sr-only">Actions</span></th>
             </tr>
           </ng-template>
@@ -194,9 +194,12 @@ export class AdmissionsTab {
   }
 
   private setStatus(a: AdmissionView, status: AdmissionStatus): void {
-    this.service.updateAdmissionStatus(a.id, status).subscribe(() => {
-      this.toast.success('Admission updated', `${a.studentName} · ${status}`);
-      this.admissions.reload();
+    this.service.updateAdmissionStatus(a.id, status).subscribe({
+      next: () => {
+        this.toast.success('Admission updated', `${a.studentName} · ${status}`);
+        this.admissions.reload();
+      },
+      error: (e: Error) => this.toast.error('Could not complete the action', e.message),
     });
   }
 
